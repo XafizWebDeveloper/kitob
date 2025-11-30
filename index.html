@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7-sinf kitoblari</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+
+
+
+ <h2>📘 7-sinf Tarbiya Darsligi</h2>
+<h3>Feruza</h3>
+
+    <!-- PDF Ko‘rinish -->
+    <div class="pdf-box">
+        <iframe src="Tarbiya kitob.pdf"></iframe>
+    </div>
+
+    <!-- Ism kiritish -->
+    <h3>👤 Avval ismingizni kiriting</h3>
+    <div class="name-area" id="nameArea">
+        <input type="text" id="nameInput" placeholder="Ismingiz...">
+        <button onclick="saveName()">Kirish</button>
+    </div>
+
+    <!-- Chat bo‘limi -->
+    <div id="chatSection" style="display: none;">
+        <h3>✏️ Xabar yozish</h3>
+
+        <div class="chat-box" id="chatBox"></div>
+
+        <div class="input-area">
+            <input type="text" id="msgInput" placeholder="Xabar yozing...">
+            <button onclick="sendMsg()">Yuborish</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+let userName = null;
+
+/* Ismni saqlash */
+function saveName() {
+    let name = document.getElementById("nameInput").value.trim();
+
+    if (name === "") {
+        alert("Iltimos ismingizni kiriting!");
+        return;
+    }
+
+    userName = name;
+    localStorage.setItem("chatUserName", name);
+
+    document.getElementById("nameArea").style.display = "none";
+    document.getElementById("chatSection").style.display = "block";
+}
+
+/* Sahifa yangilanganda ismni tekshirish */
+window.onload = function () {
+    let saved = localStorage.getItem("chatUserName");
+    if (saved) {
+        userName = saved;
+        document.getElementById("nameArea").style.display = "none";
+        document.getElementById("chatSection").style.display = "block";
+    }
+}
+
+/* Xabar yuborish */
+function sendMsg() {
+    let text = document.getElementById("msgInput").value.trim();
+    if (text === "") return;
+
+    let box = document.getElementById("chatBox");
+
+    let div = document.createElement("div");
+    div.className = "msg";
+
+    div.innerHTML = `<div class="author">${userName}:</div>${text}`;
+
+    box.appendChild(div);
+
+    box.scrollTop = box.scrollHeight;
+
+    document.getElementById("msgInput").value = "";
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

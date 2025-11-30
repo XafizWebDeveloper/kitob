@@ -1,0 +1,105 @@
+ body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+    }
+
+    .container {
+        width: 95%;
+        max-width: 900px;
+        margin: auto;
+        padding: 10px;
+    }
+
+    h2, h3 {
+        text-align: center;
+    }
+
+    /* PDF oynasi */
+    .pdf-box {
+        width: 100%;
+        height: 80vh; /* ekran balandligining 80% i */
+        border: 1px solid #aaa;
+        background: white;
+        margin-bottom: 20px;
+    }
+
+    .pdf-box iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    /* Ism kiritish */
+    .name-area {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    /* Chat qismi */
+    .chat-box {
+        background: white;
+        height: 300px;
+        overflow-y: auto;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+
+    .msg {
+        background: #e8f0fe;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 8px;
+        max-width: 75%;
+    }
+
+    .author {
+        font-size: 12px;
+        font-weight: bold;
+        color: #444;
+        margin-bottom: 3px;
+    }
+
+    .input-area {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #aaa;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 12px 18px;
+        border: none;
+        border-radius: 5px;
+        background: #4a73ff;
+        color: white;
+        cursor: pointer;
+    }
+
+    /* 📱 MOBIL АДАПТИВ */
+    @media (max-width: 600px) {
+        .msg {
+            max-width: 100%;
+            font-size: 14px;
+        }
+
+        .name-area, .input-area {
+            flex-direction: column;
+        }
+
+        button {
+            width: 100%;
+        }
+
+        .pdf-box {
+            height: 70vh; /* Telefon uchun moslashgan */
+        }
+    }
