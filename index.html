@@ -11,53 +11,72 @@
 
 
 
-   <h2>📘 7-sinf Tarbiya Darsligi</h2>
-  <h3>Maftuna</h3>
+  <h2>📘 7-sinf Tarbiya Darsligi</h2>
+  <br>
+  <br>
+<h3>Ushbu platforma Feruza tomonidan yaratilgan</h3>
 
-  <!-- PDF Ko‘rinish -->
-  <div class="pdf-box">
-      <embed src="Tarbiya kitob.pdf" type="application/pdf">
-  </div>
+<!-- PDF Ko‘rinish -->
+<div id="pdfViewer"></div>
 
-  <!-- Ism kiritish -->
-  <h3>👤 Avval ismingizni kiriting</h3>
-  <div class="name-area" id="nameArea">
-      <input type="text" id="nameInput" placeholder="Ismingiz...">
-      <button onclick="saveName()">Kirish</button>
-  </div>
+<!-- Ism kiritish -->
+<h3>👤 Avval ismingizni kiriting</h3>
+<div class="name-area" id="nameArea">
+    <input type="text" id="nameInput" placeholder="Ismingiz...">
+    <button onclick="saveName()">Kirish</button>
+</div>
 
-  <!-- Chat bo‘limi -->
-  <div id="chatSection">
-      <h3>✏️ Xabar yozish</h3>
+<!-- Chat bo‘limi -->
+<div id="chatSection">
+    <h3>✏️ Xabar yozish</h3>
 
-      <div class="chat-box" id="chatBox"></div>
+    <div class="chat-box" id="chatBox"></div>
 
-      <div class="input-area">
-          <input type="text" id="msgInput" placeholder="Xabar yozing...">
-          <button onclick="sendMsg()">Yuborish</button>
-      </div>
-  </div>
+    <div class="input-area">
+        <input type="text" id="msgInput" placeholder="Xabar yozing...">
+        <button onclick="sendMsg()">Yuborish</button>
+    </div>
+</div>
 
+<!-- PDF.js kutubxonalari -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script>
+const url = 'Tarbiya kitob.pdf'; // PDF faylingiz manzili
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+const viewer = document.getElementById('pdfViewer');
+
+pdfjsLib.getDocument(url).promise.then(pdf => {
+    for (let i = 1; i <= pdf.numPages; i++) {
+        pdf.getPage(i).then(page => {
+            const viewport = page.getViewport({ scale: 1.2 });
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            page.render({canvasContext: context, viewport: viewport});
+            viewer.appendChild(canvas);
+        });
+    }
+});
+
+/* Ism va chat tizimi */
 let userName = null;
 
-/* Ismni saqlash */
 function saveName() {
     let name = document.getElementById("nameInput").value.trim();
-
     if (name === "") {
         alert("Iltimos ismingizni kiriting!");
         return;
     }
-
     userName = name;
     localStorage.setItem("chatUserName", name);
-
     document.getElementById("nameArea").style.display = "none";
     document.getElementById("chatSection").style.display = "block";
 }
 
-/* Sahifa yangilanganda ismni tekshirish */
 window.onload = function () {
     let saved = localStorage.getItem("chatUserName");
     if (saved) {
@@ -67,22 +86,15 @@ window.onload = function () {
     }
 }
 
-/* Xabar yuborish */
 function sendMsg() {
     let text = document.getElementById("msgInput").value.trim();
     if (text === "") return;
-
     let box = document.getElementById("chatBox");
-
     let div = document.createElement("div");
     div.className = "msg";
-
     div.innerHTML = `<div class="author">${userName}:</div>${text}`;
-
     box.appendChild(div);
-
     box.scrollTop = box.scrollHeight;
-
     document.getElementById("msgInput").value = "";
 }
 </script>
